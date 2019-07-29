@@ -1,17 +1,27 @@
 package com.example.customerservice.resource;
 
+import com.example.customerservice.dto.CustomerDto;
+import com.example.customerservice.dto.UserDto;
+import com.example.customerservice.entity.Customer;
 import com.example.customerservice.model.CustomPrincipal;
+import com.example.customerservice.service.CustomerService;
+import com.example.customerservice.util.GenericResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.io.IOException;
 import java.security.Principal;
 
 
 @RestController
 public class CustomerRegistrationController {
-
+    @Autowired
+    CustomerService customerService;
     @GetMapping("/admins")
     @PreAuthorize("hasAuthority('role_partner')")
     public String context() {
@@ -35,4 +45,17 @@ public class CustomerRegistrationController {
     public Principal user(Principal principal) {
         return principal;
     }
+
+    @RequestMapping(value = "/registration", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public GenericResponse registerUserAccount(@Valid @RequestBody final CustomerDto accountDto, final HttpServletRequest request) {
+        try {
+            final Customer registered = customerService.registerNewCustomerAccount(accountDto);
+        } catch (IOException e) {
+            return new GenericResponse("error");
+        }
+        return new GenericResponse("success");
+    }
+
+
 }
