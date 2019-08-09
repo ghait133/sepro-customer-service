@@ -1,36 +1,66 @@
 package com.example.customerservice.entity;
 
+import com.example.customerservice.dto.PartnerDto;
+
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
 public class Customer extends BaseIdEntity{
 
 
-    String vorname;
-    String nachname;
-    String email;
-    String telNumbre;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String telNumbre;
+    private String gender;
+    private Date birthdate;
+    private Long user_id;
 
     @OneToOne(targetEntity = Adresse.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "adresse_id", foreignKey = @ForeignKey(name = "id"))
+    @JoinColumn(nullable = false, name = "adresse", foreignKey = @ForeignKey(name = "id"))
     private Adresse adresse;
 
-
-    public String getVorname() {
-        return vorname;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setVorname(String vorname) {
-        this.vorname = vorname;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
 
-    public String getNachname() {
-        return nachname;
+    public Date getBirthdate() {
+        return birthdate;
     }
 
-    public void setNachname(String nachname) {
-        this.nachname = nachname;
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getEmail() {
