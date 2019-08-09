@@ -31,7 +31,7 @@ public class CustomerRegistrationController {
     }
 
     @GetMapping("/users")
-    @PreAuthorize("hasAnyAuthority('role_admin','role_user')")
+    @PreAuthorize("hasAnyAuthority('role_partner','role_user')")
     public String secured(CustomPrincipal principal) {
         return principal.getUsername() + " " + principal.getEmail();
     }
@@ -48,9 +48,9 @@ public class CustomerRegistrationController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public GenericResponse registerUserAccount(@Valid @RequestBody final CustomerDto accountDto, final HttpServletRequest request) {
+    public GenericResponse registerUserAccount(@Valid @RequestBody final CustomerDto customerForm, final HttpServletRequest request) {
         try {
-            final Customer registered = customerService.registerNewCustomerAccount(accountDto);
+            customerService.registerNewCustomerAccount(customerForm);
         } catch (IOException e) {
             return new GenericResponse("error");
         }
