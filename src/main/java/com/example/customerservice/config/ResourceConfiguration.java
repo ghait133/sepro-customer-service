@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsResourceDetails;
+import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.common.AuthenticationScheme;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
@@ -28,7 +30,7 @@ public class ResourceConfiguration {
     //@Value("${clientSecret}")
     private String clientSecret = "password";
 
-    /*@Bean
+    @Bean
     public OAuth2ProtectedResourceDetails reddit() {
         AuthorizationCodeResourceDetails details = new AuthorizationCodeResourceDetails();
         details.setId("reddit");
@@ -38,7 +40,7 @@ public class ResourceConfiguration {
         details.setUserAuthorizationUri(userAuthorizationUri);
         details.isClientOnly();
         return details;
-    }*/
+    }
 
   /*  @Bean
     public OAuth2ProtectedResourceDetails trusted() {
@@ -57,7 +59,7 @@ public class ResourceConfiguration {
     @LoadBalanced
     @Bean
     public OAuth2RestTemplate redditRestTemplate(@Qualifier("oauth2ClientContext") OAuth2ClientContext clientContext) {
-        ResourceOwnerPasswordResourceDetails details = new ResourceOwnerPasswordResourceDetails();
+        /*ResourceOwnerPasswordResourceDetails details = new ResourceOwnerPasswordResourceDetails();
         details.setClientId(clientID);
         details.setClientSecret(clientSecret);
         details.setAccessTokenUri(accessTokenUri);
@@ -72,8 +74,8 @@ public class ResourceConfiguration {
         resourceDetails.setGrantType("client_credentials");
         resourceDetails
                 .setAccessTokenUri("http://localhost:8072/oauth/token");
-        resourceDetails.setAuthenticationScheme(AuthenticationScheme.header);
-        OAuth2RestTemplate template = new OAuth2RestTemplate(resourceDetails);
+        resourceDetails.setAuthenticationScheme(AuthenticationScheme.header);*/
+        OAuth2RestTemplate template = new OAuth2RestTemplate(reddit(),clientContext);
 
 
         return template;
